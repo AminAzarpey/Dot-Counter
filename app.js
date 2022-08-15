@@ -1,8 +1,12 @@
-const countdotText = document.querySelector('.count-dot')
-const btnElement = document.querySelector('.btn')
-const textarea = document.getElementById('textarea')
-const countBox = document.querySelector('.count-box')
-const errText = document.querySelector('.err-text')
+const countdotText =
+  document.querySelector('.count-dot');
+const btnElement = document.getElementById('btn');
+const textarea =
+  document.getElementById('textarea');
+const countBox =
+  document.querySelector('.count-box');
+const errText =
+  document.querySelector('.err-text');
 
 //هر گروه از حروف الفبای فارسی را به ترتیب از بی نقطه تا سه نقطه
 //به عنوان یک دیتای آرایه ای در یک آرایه والد قرار دادیم
@@ -11,10 +15,63 @@ const errText = document.querySelector('.err-text')
 //بصورت پیش فرض با دو نقطه در نظر گرفتیم و در گروه دو نقطه ای ها قرار دادیم
 
 let wordsArray = [
-    ['ا', 'ص', 'ع', 'ه', 'ح', 'گ', 'ک', 'م', 'آ', 'ل', 'س', 'و', 'ط', 'د', 'ر'],
-    ['ب', 'ج', 'خ', 'ذ', 'ز', 'ظ', 'ض', 'ف', 'غ', 'ن'],
-    ['ت', 'ق', 'ی'],
-    ['پ', 'ث', 'چ', 'ژ', 'ش'],
+  [
+    'ا',
+    'ص',
+    'ع',
+    'ه',
+    'ح',
+    'گ',
+    'ک',
+    'م',
+    'آ',
+    'ل',
+    'س',
+    'و',
+    'ط',
+    'د',
+    'ر',
+    'a',
+    'b',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'h',
+    'k',
+    'l',
+    'm',
+    'n',
+    'o',
+    'p',
+    'q',
+    'r',
+    's',
+    't',
+    'u',
+    'v',
+    'x',
+    'y',
+    'z',
+    'w',
+  ],
+  [
+    'ب',
+    'ج',
+    'خ',
+    'ذ',
+    'ز',
+    'ظ',
+    'ض',
+    'ف',
+    'غ',
+    'ن',
+    'i',
+    'j',
+  ],
+  ['ت', 'ق', 'ی'],
+  ['پ', 'ث', 'چ', 'ژ', 'ش'],
 ];
 
 const pattern = /[ی]\s|[ی]$/g;
@@ -24,66 +81,82 @@ const arabicPattern = /(ي|ة)/g;
 // از این الگو برای شناسایی کلمات عربی استفاده شده
 
 const checkDotHandler = (word) => {
-    let dotCount = 0;
-    const strigWord = word.match(pattern);
-    const arabicWord = word.match(arabicPattern)
+  let dotCount = 0;
+  const strigWord = word.match(pattern);
+  const arabicWord = word.match(arabicPattern);
 
-    let dotCounter = counterDot(word, dotCount);
-    let dotDepleCounter = checkDepoleString(strigWord, dotCounter)
-    let dotArabicCounter = arabicWordCheck(arabicWord, dotDepleCounter)
+  let dotCounter = counterDot(word, dotCount);
+  let dotDepleCounter = checkDepoleString(
+    strigWord,
+    dotCounter
+  );
+  let dotArabicCounter = arabicWordCheck(
+    arabicWord,
+    dotDepleCounter
+  );
 
-    countBox.classList.add('active')
-    errText.classList.remove('active')
-    countdotText.innerHTML = dotArabicCounter
-}
+  countBox.classList.add('active');
+  errText.classList.remove('active');
+  countdotText.innerHTML = dotArabicCounter;
+};
 
 const counterDot = (word, dotCount) => {
-    const chars = word.split('');
+  const chars = word.split('');
 
-    for (let i = 0; i < wordsArray.length; i++) {
-        chars.map(char => {
-            const isCharInWordsArray = wordsArray[i].includes(char);
-            if (isCharInWordsArray) {
-                dotCount += i
-                return dotCount;
-            };
-            //مقدار ایندکس آن گروه که برابر با تعداد نقطه آن گروه از حروف است i در بالا 
-        });
-    };
+  for (let i = 0; i < wordsArray.length; i++) {
+    chars.map((char) => {
+      const isCharInWordsArray =
+        wordsArray[i].includes(char);
+      if (isCharInWordsArray) {
+        dotCount += i;
+        return dotCount;
+      }
+      //مقدار ایندکس آن گروه که برابر با تعداد نقطه آن گروه از حروف است i در بالا
+    });
+  }
 
-    return dotCount
-}
+  return dotCount;
+};
 
-const checkDepoleString = (stringGroupe, dotCount) => {
-    if (stringGroupe) {
-        const minesCount = stringGroupe.length * 2;
-        return dotCount -= minesCount;
-        //تعداد ی های بدون نقطه در ضریب تعداد نقطه که ۲ میباشد از تعداد کل نقطه ها کم میشود 
-    };
-    return dotCount
-}
+const checkDepoleString = (
+  stringGroupe,
+  dotCount
+) => {
+  if (stringGroupe) {
+    const minesCount = stringGroupe.length * 2;
+    return (dotCount -= minesCount);
+    //تعداد ی های بدون نقطه در ضریب تعداد نقطه که ۲ میباشد از تعداد کل نقطه ها کم میشود
+  }
+  return dotCount;
+};
 
-const arabicWordCheck = (stringGroupe, dotCount) => {
-    if (stringGroupe) {
-        const plusCount = stringGroupe.length * 2;
-        return dotCount += plusCount;
-        //کلمات عربی ي نقطه دار و ة نقطه دار نیز چک شده و محاسبه میشود
-    };
-    return dotCount
-}
+const arabicWordCheck = (
+  stringGroupe,
+  dotCount
+) => {
+  if (stringGroupe) {
+    const plusCount = stringGroupe.length * 2;
+    return (dotCount += plusCount);
+    //کلمات عربی ي نقطه دار و ة نقطه دار نیز چک شده و محاسبه میشود
+  }
+  return dotCount;
+};
 
-btnElement.addEventListener('click', () => {
-    const textareaValue = textarea.value
-
-    if (textareaValue) {
-        checkDotHandler(textareaValue)
-    } else {
-        errText.classList.add('active')
-    }
-})
-
-textarea.addEventListener("keyup", e => {
-    textarea.style.height = "63px";
+textarea.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    submit();
+    btnElement.click();
     let scHeight = e.target.scrollHeight;
     textarea.style.height = `${scHeight}px`;
+  }
 });
+
+function submit() {
+  const textareaValue = textarea.value;
+  if (textareaValue) {
+    checkDotHandler(textareaValue);
+  } else {
+    errText.classList.add('active');
+  }
+}
